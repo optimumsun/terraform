@@ -6,15 +6,22 @@ variable "resource_group" {
   type = string
 }
 
+variable "zone" {
+  type = string
+}
+
+variable = "region" {
+  type = string
+}
+
 provider "ibm" {
   generation = 1
-  region = "us-south"
+  region = var.region
 }
 
 locals {
-  SSHKEY = "schematics"
   BASENAME = "schematics"
-  ZONE     = "us-south-1"
+  ZONE     = var.zone
 }
 
 resource ibm_is_vpc "vpc" {
@@ -62,7 +69,7 @@ resource ibm_is_instance "vsi1" {
   resource_group = "data.ibm_resource_group.group.id"
   vpc     = ibm_is_vpc.vpc.id
   zone    = local.ZONE
-  keys    = [local.SSHKEY]
+  keys    = [data.ibm_is_ssh_key.ssh_key_id.id]
   image   = data.ibm_is_image.ubuntu.id
   profile = "cc1-2x4"
 
