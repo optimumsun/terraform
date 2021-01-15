@@ -6,22 +6,14 @@ variable "resource_group" {
   type = string
 }
 
-variable "zone" {
-  type = string
-}
-
-variable = "region" {
-  type = string
-}
-
 provider "ibm" {
   generation = 1
-  region = var.region
+  region = "eu-gb"
 }
 
 locals {
   BASENAME = "schematics"
-  ZONE     = var.zone
+  ZONE     = "eu-gb-1"
 }
 
 resource ibm_is_vpc "vpc" {
